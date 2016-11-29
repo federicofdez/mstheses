@@ -1,18 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xmlns="http://java.sun.com/xml/ns/javaee"
-xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+
+	<!-- /myMsTheses -->
 	<servlet>
-		<servlet-name>Es_upm_dit_apsv_msthesis</servlet-name>
-		<servlet-class>es.upm.dit.apsv.msthesis.Es_upm_dit_apsv_msthesisServlet</servlet-class>
+		<servlet-name>MyMsThesesServlet</servlet-name>
+		<servlet-class>es.upm.dit.apsv.msthesis.MyMsThesesServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>Es_upm_dit_apsv_msthesis</servlet-name>
-		<url-pattern>/es_upm_dit_apsv_msthesis</url-pattern>
+		<servlet-name>MyMsThesesServlet</servlet-name>
+		<url-pattern>/myMsTheses</url-pattern>
+	</servlet-mapping>
+
+	<!-- /newMsThesis -->
+	<servlet>
+		<servlet-name>NewMsThesisServlet</servlet-name>
+		<servlet-class>es.upm.dit.apsv.msthesis.NewMsThesisServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>NewMsThesisServlet</servlet-name>
+		<url-pattern>/newMsThesis</url-pattern>
+	</servlet-mapping>
+
+	<!-- /accept -->
+	<servlet>
+		<servlet-name>AcceptMsThesisServlet</servlet-name>
+		<servlet-class>es.upm.dit.apsv.msthesis.AcceptMsThesisServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AcceptMsThesisServlet</servlet-name>
+		<url-pattern>/accept</url-pattern>
+	</servlet-mapping>
+
+	<!-- /acceptViaEmail -->
+	<servlet>
+		<servlet-name>AcceptMsThesisViaEmailServlet</servlet-name>
+		<servlet-class>es.upm.dit.apsv.msthesis.AcceptMsThesisViaEmailServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AcceptMsThesisViaEmailServlet</servlet-name>
+		<url-pattern>/_ah/mail/msthesis@apsv‐msthesis.appspotmail.com</url-pattern>
+	</servlet-mapping>
+	
+	<!-- /reject -->
+	<servlet>
+		<servlet-name>RejectMsThesisServlet</servlet-name>
+		<servlet-class>es.upm.dit.apsv.msthesis.RejectMsThesisServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RejectMsThesisServlet</servlet-name>
+		<url-pattern>/reject</url-pattern>
+	</servlet-mapping>
+
+	<!-- /file -->
+	<servlet>
+		<servlet-name>FileServlet</servlet-name>
+		<servlet-class>es.upm.dit.apsv.msthesis.FileServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FileServlet</servlet-name>
+		<url-pattern>/file</url-pattern>
+	</servlet-mapping>
+
+	<!-- /index -->
+	<servlet>
+		<servlet-name>IndexServlet</servlet-name>
+		<servlet-class>es.upm.dit.apsv.msthesis.IndexServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>IndexServlet</servlet-name>
+		<url-pattern>/index</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
+		<welcome-file>index</welcome-file>
 	</welcome-file-list>
+
+	<!-- /clean -->
+	<servlet>
+		<servlet-name>CleanMsThesesServlet</servlet-name>
+		<servlet-class>es.upm.dit.apsv.msthesis.CleanMsThesesServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CleanMsThesesServlet</servlet-name>
+		<url-pattern>/clean</url-pattern>
+	</servlet-mapping>
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>cron</web-resource-name>
+			<url-pattern>/clean</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>admin</role-name>
+		</auth-constraint>
+	</security-constraint>
 </web-app>
