@@ -64,7 +64,7 @@
 				required placeholder="Title" /> <input type="text" name="summary"
 				id="summary" maxLength="255" size="20" required
 				placeholder="Summary" /> <input type="text" name="advisor" id="advisor"
-				maxLength="255" size="20" required placeholder="advisor" /> <input
+				maxLength="255" size="20" required placeholder="Advisor" /> <input
 				type="submit" value="Submit" />
 		</form>
 	</c:otherwise>
