@@ -5,6 +5,7 @@ import java.util.Properties;
 
 import javax.mail.MessagingException;
 import javax.mail.Session;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +19,7 @@ import es.upm.dit.apsv.msthesis.model.MsThesis;
 /**
  * 
  * @author Federico A. Fernández Moreno
+ * @version 2016-11
  *
  */
 public class AcceptMsThesisViaEmailServlet extends HttpServlet {
@@ -27,12 +29,20 @@ public class AcceptMsThesisViaEmailServlet extends HttpServlet {
 		try {
 			MimeMessage message = new MimeMessage(Session.getDefaultInstance(new Properties(), null),
 					req.getInputStream());
+			String professor = new InternetAddress(message.getFrom()[0].toString()).getAddress();
 			String author = message.getSubject();
 			MsThesisDAO dao = MsThesisDAOImpl.getInstance();
 
 			MsThesis msthesis = dao.getMsThesis(author);
-			msthesis.setStatus(4);
-			dao.updateMsThesis(msthesis);
+			int status = msthesis.getStatus();
+
+			// allow email acceptance for any of the wait-for-acceptance
+			// statuses
+			if ((status == 1 || status == 3 || status == 4)
+					&& (msthesis.getAdvisor().equals(professor) || msthesis.getSecretary().equals(professor))) {
+				msthesis.setStatus(status + 1);
+				dao.updateMsThesis(msthesis);
+			}
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}

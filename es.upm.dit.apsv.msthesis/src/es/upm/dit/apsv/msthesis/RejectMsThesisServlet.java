@@ -18,10 +18,12 @@ import javax.servlet.http.HttpServletResponse;
 import es.upm.dit.apsv.msthesis.dao.MsThesisDAO;
 import es.upm.dit.apsv.msthesis.dao.MsThesisDAOImpl;
 import es.upm.dit.apsv.msthesis.model.MsThesis;
+import static es.upm.dit.apsv.msthesis.utils.MailUtils.sendMail;
 
 /**
  * 
  * @author Federico A. Fernández Moreno
+ * @version 2016-11
  *
  */
 public class RejectMsThesisServlet extends HttpServlet {
@@ -37,32 +39,32 @@ public class RejectMsThesisServlet extends HttpServlet {
 		
 		switch (msthesis.getStatus()) {
 		case 1:
-			if (role.equals("tutor")) {
+			if (role.equals("advisor")) {
 				msthesis.setRejected(true);
 				dao.updateMsThesis(msthesis);
 
-				String subject = "El profesor " + username
-						+ " rechaza la solicitud del MsThesis.";
-				String text = "El profesor " + username
-						+ " rechaza la solicitud del MsThesis propuesto por "
-						+ msthesis.getAuthor() + "con título " + msthesis.getTitle();
+				String subject = "Professor " + username
+						+ " rejects your Master thesis";
+				String text = "Professor " + username
+						+ " rejects the Master thesis proposed by "
+						+ msthesis.getAuthor() + " with title " + msthesis.getTitle();
 
 				sendMail(author, subject, text);
 				break;
 			} else{
-				resp.sendRedirect("myMsThesiss?error=Solicitud%20Incorrecta,%20por%20favor%20prueba%20de%20nuevo");
+				resp.sendRedirect("myMsTheses?error=Bad%20Request%20Please%20try%20again");
 				return;
 			}
 		case 3:
-			if (role.equals("tutor")) {
+			if (role.equals("advisor")) {
 				msthesis.setRejected(true);
 				dao.updateMsThesis(msthesis);
 
-				String subject = "El profesor " + username
-						+ " rechaza la memoria del MsThesis.";
-				String text = "El profesor " + username
-						+ " rechaza la memoria del MsThesis propuesto por "
-						+ msthesis.getAuthor() + "con título " + msthesis.getTitle();
+				String subject = "Professor " + username
+						+ " rejects your report";
+				String text = "Professor " + username
+						+ " rejects the Master thesis report proposed by "
+						+ msthesis.getAuthor() + " with title " + msthesis.getTitle();
 
 				sendMail(author, subject, text);
 			}
@@ -72,36 +74,20 @@ public class RejectMsThesisServlet extends HttpServlet {
 				msthesis.setRejected(true);
 				dao.updateMsThesis(msthesis);
 
-				String subject = "El secretario " + username
-						+ " ha calificado el MsThesis.";
-				String text = "El secretario " + username
-						+ " ha calificado el MsThesis propuesto por "
-						+ msthesis.getAuthor() + "con título " + msthesis.getTitle()
-						+ "y tutorizado por " + msthesis.getTutor();
+				String subject = "Secretary " + username
+						+ " has failed you.";
+				String text = "Secretary " + username
+						+ " has failed the Master thesis proposed by "
+						+ msthesis.getAuthor() + " with title " + msthesis.getTitle()
+						+ " and being advised by " + msthesis.getAdvisor();
 
 				sendMail(author, subject, text);
-				sendMail(msthesis.getTutor(), subject, text);
+				sendMail(msthesis.getAdvisor(), subject, text);
 			}
 			break;
 		}
-		resp.sendRedirect("myMsThesiss");
+		resp.sendRedirect("myMsTheses");
 		
-	}
-	
-	public void sendMail(String recipient, String subject, String text) {
-		Message msg = new MimeMessage(Session.getDefaultInstance(
-				new Properties(), null));
-		try {
-			msg.setFrom(new InternetAddress("msthesis@isst-msthesis.appspotmail.com",
-					"Sistema de gestion de MsThesiss"));
-			msg.addRecipient(Message.RecipientType.TO, new InternetAddress(
-					recipient, "Solicitante de MsThesis"));
-			msg.setSubject(subject);
-			msg.setText(text);
-			Transport.send(msg);
-		} catch (MessagingException | UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
 	}
 
 }

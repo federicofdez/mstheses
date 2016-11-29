@@ -19,10 +19,12 @@ import javax.servlet.http.HttpServletResponse;
 import es.upm.dit.apsv.msthesis.dao.MsThesisDAO;
 import es.upm.dit.apsv.msthesis.dao.MsThesisDAOImpl;
 import es.upm.dit.apsv.msthesis.model.MsThesis;
+import static es.upm.dit.apsv.msthesis.utils.MailUtils.sendMail;
 
 /**
  * 
  * @author Federico A. Fernández Moreno
+ * @version 2016-11
  *
  */
 public class AcceptMsThesisServlet extends HttpServlet {
@@ -39,16 +41,16 @@ public class AcceptMsThesisServlet extends HttpServlet {
 
 		switch (msthesis.getStatus()) {
 		case 1:
-			if (role.equals("tutor") && data.containsKey("secretary")) {
+			if (role.equals("advisor") && data.containsKey("secretary")) {
 				String secretary = req.getParameter("secretary");
 				msthesis.setSecretary(secretary);
 				msthesis.setStatus(2);
 				dao.updateMsThesis(msthesis);
 
 				String subject = "Professor " + username
-						+ " accepts to act as tutor of the Master thesis.";
+						+ " accepts to be your advisor";
 				String text = "Professor " + username
-						+ " accepts to act as tutor of the Master thesis proposed by "
+						+ " accepts to be the advisor of the Master thesis proposed by "
 						+ msthesis.getAuthor() + " with title " + msthesis.getTitle();
 
 				sendMail(author, subject, text);
@@ -58,15 +60,15 @@ public class AcceptMsThesisServlet extends HttpServlet {
 				return;
 			}
 		case 3:
-			if (role.equals("tutor")) {
+			if (role.equals("advisor")) {
 				msthesis.setStatus(4);
 				dao.updateMsThesis(msthesis);
 
-				String subject = "El profesor " + username
-						+ " acepta la memoria del MsThesis.";
-				String text = "El profesor " + username
-						+ "acepta la memoria del MsThesis propuesto por "
-						+ msthesis.getAuthor() + "con título " + msthesis.getTitle();
+				String subject = "Professor " + username
+						+ " accepts your report";
+				String text = "Professor " + username
+						+ " accepts the report of the Master thesis proposed by "
+						+ msthesis.getAuthor() + "with title " + msthesis.getTitle();
 
 				sendMail(author, subject, text);
 			}
@@ -76,41 +78,25 @@ public class AcceptMsThesisServlet extends HttpServlet {
 				msthesis.setStatus(5);
 				dao.updateMsThesis(msthesis);
 
-				String subject = "El secretario " + username
-						+ " ha calificado el MsThesis.";
-				String text = "El secretario " + username
-						+ "ha calificado el MsThesis propuesto por "
-						+ msthesis.getAuthor() + "con título " + msthesis.getTitle()
-						+ "y tutorizado por " + msthesis.getTutor();
+				String subject = "The secretary " + username
+						+ " has graded your Master thesis.";
+				String text = "The secretary " + username
+						+ " has graded the Master thesis proposed by "
+						+ msthesis.getAuthor() + " with title " + msthesis.getTitle()
+						+ " and advisor being " + msthesis.getAdvisor();
 
 				sendMail(author, subject, text);
-				sendMail(msthesis.getTutor(), subject, text);
+				sendMail(msthesis.getAdvisor(), subject, text);
 			}
 			break;
 		}
-		resp.sendRedirect("myMsThesiss");
+		resp.sendRedirect("myMsTheses");
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		resp.sendRedirect("myMsThesiss");
-	}
-
-	public void sendMail(String recipient, String subject, String text) {
-		Message msg = new MimeMessage(Session.getDefaultInstance(
-				new Properties(), null));
-		try {
-			msg.setFrom(new InternetAddress("msthesis@isst-msthesis.appspotmail.com",
-					"Sistema de gestion de MsThesiss"));
-			msg.addRecipient(Message.RecipientType.TO, new InternetAddress(
-					recipient, "Solicitante de MsThesis"));
-			msg.setSubject(subject);
-			msg.setText(text);
-			Transport.send(msg);
-		} catch (MessagingException | UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+		resp.sendRedirect("myMsTheses");
 	}
 
 }
