@@ -12,18 +12,20 @@ public interface MsThesisDAO {
 	
 	//CREATE methods
 	public MsThesis createMsThesis(String author, String title, String summary,
-			String tutor, String secretary, String file, int status, boolean rejected);
+			String advisor, String secretary, String file, int status, boolean rejected);
 
 	//READ methods
 	public MsThesis getMsThesis(String author);
 	
 	public List<MsThesis> getAllMsTheses();
 	
-	public List<MsThesis> getMsThesesByTutor(String tutor);
+	public List<MsThesis> getMsThesesByAdvisor(String advisor);
 	
 	public List<MsThesis> getMsThesesBySecretary(String secretary);
 	
 	public List<MsThesis> getMsThesesByStatus(int status);
+	
+	public List<MsThesis> getMsThesesRejected();
 	
 	//UPDATE methods
 	public void updateMsThesis(MsThesis MsThesis);

@@ -21,7 +21,7 @@
 				<th>Author</th>
 				<th>Title</th>
 				<th>Summary</th>
-				<th>Tutor</th>
+				<th>Advisor</th>
 				<th>Secretary</th>
 				<th>Status</th>
 				<th>Report</th>
@@ -30,7 +30,7 @@
 				<td><c:out value="${msthesis.author}" /></td>
 				<td><c:out value="${msthesis.title}" /></td>
 				<td><c:out value="${msthesis.summary}" /></td>
-				<td><c:out value="${msthesis.tutor}" /></td>
+				<td><c:out value="${msthesis.advisor}" /></td>
 				<td><c:out value="${msthesis.secretary}" /></td>
 				<td><c:out value="${msthesis.status}" /></td>
 				<td><c:choose>
@@ -63,8 +63,8 @@
 			<input type="text" name="title" id="title" maxLength="255" size="20"
 				required placeholder="Title" /> <input type="text" name="summary"
 				id="summary" maxLength="255" size="20" required
-				placeholder="Summary" /> <input type="text" name="tutor" id="tutor"
-				maxLength="255" size="20" required placeholder="tutor" /> <input
+				placeholder="Summary" /> <input type="text" name="advisor" id="advisor"
+				maxLength="255" size="20" required placeholder="advisor" /> <input
 				type="submit" value="Submit" />
 		</form>
 	</c:otherwise>

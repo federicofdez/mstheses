@@ -4,8 +4,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <p>Profile: professor.</p>
-<c:if test="${fn:length(msthesesAsTutor)>0}">
-	<p>You are the tutor of the following Master theses.</p>
+<c:if test="${fn:length(msthesesAsAdvisor)>0}">
+	<p>You are the advisor of the following Master theses.</p>
 	<table>
 		<tr>
 			<th>Status</th>
@@ -15,7 +15,7 @@
 			<th>Secretary</th>
 			<th>Actions</th>
 		</tr>
-		<c:forEach items="${msthesesAsTutor}" var="msthesis">
+		<c:forEach items="${msthesesAsAdvisor}" var="msthesis">
 			<tr>
 				<td><c:out value="${msthesis.status}" /><c:if test="${msthesis.rejected == true}"> (R)</c:if></td>
 				<td><c:out value="${msthesis.author}" /></td>
@@ -25,15 +25,15 @@
 				<c:choose>
 					<c:when test="${msthesis.status == 1}">
 						<c:if test="${msthesis.rejected == false }">
-							<form action="/accept?role=tutor" method="post" acceptcharset="utf-8">
+							<form action="/accept?role=advisor" method="post" acceptcharset="utf-8">
 								<td><input type="text" name="secretary" id="secretary"
 									maxLength="255" size="20" required placeholder="Secretary" /></td>
 								<td><input type="hidden" name="author" value="${msthesis.author}" />
-									<input type="submit" value="Accept as tutor" />
+									<input type="submit" value="Accept as advisor" />
 							</form>
-							<form action="/reject?role=tutor" method="post" acceptcharset="utf-8">
+							<form action="/reject?role=advisor" method="post" acceptcharset="utf-8">
 									<input type="hidden" name="author" value="${msthesis.author}" />
-									<input type="submit" value="Reject as tutor" />
+									<input type="submit" value="Reject as advisor" />
 							</form>
 								</td>
 							</form>
@@ -52,12 +52,12 @@
 								value="Show report" />
 						</form>
 						<c:if test="${msthesis.rejected == false}">
-						<form action="/accept?role=tutor" method="post">
+						<form action="/accept?role=advisor" method="post">
 							<input id="author" name="author" type="hidden"
 								value="${msthesis.author}" /> <input type="submit"
 								value="Accept report" />
 						</form>
-						<form action="/reject?role=tutor" method="post">
+						<form action="/reject?role=advisor" method="post">
 							<input id="author" name="author" type="hidden"
 								value="${msthesis.author}" /> <input type="submit"
 								value="Reject report" />
@@ -88,7 +88,7 @@
 			<th>Author</th>
 			<th>Title</th>
 			<th>Summary</th>
-			<th>Tutor</th>
+			<th>Advisor</th>
 			<th>Actions</th>
 		</tr>
 		<c:forEach items="${msthesesAsSecretary}" var="msthesis">
@@ -97,7 +97,7 @@
 				<td><c:out value="${msthesis.author}" /></td>
 				<td><c:out value="${msthesis.title}" /></td>
 				<td><c:out value="${msthesis.summary}" /></td>
-				<td><c:out value="${msthesis.tutor}" /></td>
+				<td><c:out value="${msthesis.advisor}" /></td>
 				<td><c:choose>
 						<c:when test="${msthesis.status == 4}">
 							<form action="/file" method="get">

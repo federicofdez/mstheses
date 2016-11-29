@@ -27,10 +27,10 @@ public class MsThesisDAOImpl implements MsThesisDAO {
 
 	@Override
 	public MsThesis createMsThesis(String author, String title, String summary,
-			String tutor, String secretary, String file, int status, boolean rejected) {
+			String advisor, String secretary, String file, int status, boolean rejected) {
 		EntityManager em = EMFService.get().createEntityManager();
 		
-		MsThesis MsThesis = new MsThesis(author, title, summary, tutor, secretary, file, status, rejected);
+		MsThesis MsThesis = new MsThesis(author, title, summary, advisor, secretary, file, status, rejected);
 		em.persist(MsThesis);
 		
 		em.close();
@@ -65,11 +65,11 @@ public class MsThesisDAOImpl implements MsThesisDAO {
 	}
 
 	@Override
-	public List<MsThesis> getMsThesesByTutor(String tutor) {
+	public List<MsThesis> getMsThesesByAdvisor(String advisor) {
 		EntityManager em = EMFService.get().createEntityManager();
 		
-		Query q = em.createQuery("SELECT i from MsThesis i where tutor = :tutor", MsThesis.class);
-		q.setParameter("tutor", tutor);
+		Query q = em.createQuery("SELECT i from MsThesis i where advisor = :advisor", MsThesis.class);
+		q.setParameter("advisor", advisor);
 		List<MsThesis> MsTheses = q.getResultList();
 		
 		em.close();
@@ -96,6 +96,18 @@ public class MsThesisDAOImpl implements MsThesisDAO {
 		
 		Query q = em.createQuery("SELECT i from MsThesis i where status = :status", MsThesis.class);
 		q.setParameter("status", status);
+		List<MsThesis> MsTheses = q.getResultList();
+		
+		em.close();
+		
+		return MsTheses;
+	}
+	
+	@Override
+	public List<MsThesis> getMsThesesRejected() {
+		EntityManager em = EMFService.get().createEntityManager();
+		
+		Query q = em.createQuery("SELECT i from MsThesis i where rejected = TRUE", MsThesis.class);
 		List<MsThesis> MsTheses = q.getResultList();
 		
 		em.close();

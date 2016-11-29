@@ -12,7 +12,9 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
 /**
- * @author Federico A. Fernandez Moreno
+ * 
+ * @author Federico A. Fernández Moreno
+ * @version 2016-11
  *
  */
 public class IndexServlet extends HttpServlet {
@@ -31,7 +33,7 @@ public class IndexServlet extends HttpServlet {
         	req.getSession().removeAttribute("username");
         	req.getSession().removeAttribute("isUserStudent");
         	req.getSession().removeAttribute("tfg");
-        	req.getSession().removeAttribute("tfgsAsTutor");
+        	req.getSession().removeAttribute("tfgsAsAdvisor");
         	req.getSession().removeAttribute("tfgsAsSecretary");
         }
 		RequestDispatcher view = req.getRequestDispatcher("index.jsp");

@@ -13,23 +13,24 @@ import javax.persistence.Id;
 public class MsThesis implements Serializable {
 
 	// since it is Serializable
-	private static final long serialVersionUID = 13552091624950200L;
+	private static final long serialVersionUID = 1L;
 
+	@Id
 	private String author;
 	private String title;
 	private String summary;
-	private String tutor;
+	private String advisor;
 	private String secretary;
 	private String file;
 	private int status;
 	private boolean rejected;
 
-	public MsThesis(String author, String title, String summary, String tutor,
+	public MsThesis(String author, String title, String summary, String advisor,
 			String secretary, String file, int status, boolean rejected) {
 		this.author = author;
 		this.title = title;
 		this.summary = summary;
-		this.tutor = tutor;
+		this.advisor = advisor;
 		this.secretary = secretary;
 		this.file = file;
 		this.status = status;
@@ -59,10 +60,10 @@ public class MsThesis implements Serializable {
 	}
 
 	/**
-	 * @return the tutor
+	 * @return the advisor
 	 */
-	public String getTutor() {
-		return tutor;
+	public String getAdvisor() {
+		return advisor;
 	}
 
 	/**
@@ -119,11 +120,11 @@ public class MsThesis implements Serializable {
 	}
 
 	/**
-	 * @param tutor
-	 *            the tutor to set
+	 * @param advisor
+	 *            the advisor to set
 	 */
-	public void setTutor(String tutor) {
-		this.tutor = tutor;
+	public void setAdvisor(String advisor) {
+		this.advisor = advisor;
 	}
 
 	/**

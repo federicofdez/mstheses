@@ -14,7 +14,9 @@ import es.upm.dit.apsv.msthesis.dao.MsThesisDAOImpl;
 import es.upm.dit.apsv.msthesis.model.MsThesis;
 
 /**
+ * 
  * @author Federico A. Fernández Moreno
+ * @version 2016-11
  *
  */
 public class MyMsThesesServlet extends HttpServlet {
@@ -39,9 +41,9 @@ public class MyMsThesesServlet extends HttpServlet {
 			MsThesis msthesis = dao.getMsThesis(username);
 			req.getSession().setAttribute("msthesis", msthesis);
 		} else {
-			List<MsThesis> msthesesAsTutor = dao.getMsThesesByTutor(username);
+			List<MsThesis> msthesesAsAdvisor = dao.getMsThesesByAdvisor(username);
 			List<MsThesis> msthesesAsSecretary = dao.getMsThesesBySecretary(username);
-			req.getSession().setAttribute("msthesesAsTutor", msthesesAsTutor);
+			req.getSession().setAttribute("msthesesAsAdvisor", msthesesAsAdvisor);
 			req.getSession().setAttribute("msthesesAsSecretary", msthesesAsSecretary);
 		}
 		
@@ -54,7 +56,7 @@ public class MyMsThesesServlet extends HttpServlet {
 		MsThesisDAO dao = MsThesisDAOImpl.getInstance();
 		if (dao.getMsThesis(username) != null)
 			return true;
-		else if (dao.getMsThesesByTutor(username).size() > 0 || dao.getMsThesesBySecretary(username).size() > 0)
+		else if (dao.getMsThesesByAdvisor(username).size() > 0 || dao.getMsThesesBySecretary(username).size() > 0)
 			return false;
 		else
 			return true; //default is student
