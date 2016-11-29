@@ -20,6 +20,7 @@ import es.upm.dit.apsv.msthesis.model.MsThesis;
 /**
  * 
  * @author Federico A. Fernández Moreno
+ * @version 2016-11
  *
  */
 public class FileServlet extends HttpServlet {
@@ -41,8 +42,8 @@ public class FileServlet extends HttpServlet {
 			msthesis.setFile(blobKeys.get(0).getKeyString());
 			msthesis.setStatus(3);
 			dao.updateMsThesis(msthesis);
-			resp.sendRedirect("/myMsTheses");
 		}
+		resp.sendRedirect("/myMsTheses");
 	}
 
 	@Override

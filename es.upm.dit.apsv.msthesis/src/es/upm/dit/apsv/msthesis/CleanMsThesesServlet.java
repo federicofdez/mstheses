@@ -15,6 +15,7 @@ import es.upm.dit.apsv.msthesis.model.MsThesis;
 /**
  * 
  * @author Federico A. Fernández Moreno
+ * @version 2016-11
  *
  */
 public class CleanMsThesesServlet extends HttpServlet {
@@ -23,7 +24,7 @@ public class CleanMsThesesServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		MsThesisDAO dao = MsThesisDAOImpl.getInstance();
-		List<MsThesis> mstheses = dao.getAllMsTheses();
+		List<MsThesis> mstheses = dao.getMsThesesRejected();
 		
 		for (MsThesis msthesis : mstheses){
 			dao.deleteMsThesis(msthesis);
